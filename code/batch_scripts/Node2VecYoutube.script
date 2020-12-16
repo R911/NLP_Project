@@ -1,0 +1,25 @@
+#!/bin/bash
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=24
+#SBATCH --time=23:00:00
+#SBATCH --job-name=Node2Vec_Youtube
+#SBATCH --mem=256G
+#SBATCH --partition=short
+#SBATCH --exclusive
+module load anaconda3/3.7
+conda create -n Node2Vec_Youtube python=3.7 anaconda
+source activate Node2Vec_Youtube
+
+conda install -n Node2Vec_Youtube gensim
+conda install -n Node2Vec_Youtube scikit-learn
+conda install -n Node2Vec_Youtube tensorflow
+conda install -n Node2Vec_Youtube networkx
+conda install -n Node2Vec_Youtube scipy
+conda install -n Node2Vec_Youtube matplotlib
+conda install -n Node2Vec_Youtube numpy
+
+python3 main.py -m Node2Vec -d youtube -r 5
+
+conda deactivate
+conda remove -n Node2Vec_Youtube --all

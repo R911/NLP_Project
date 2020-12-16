@@ -1,0 +1,23 @@
+#!/bin/bash
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=28
+#SBATCH --time=23:00:00
+#SBATCH --job-name=Line_YouTube
+#SBATCH --mem=256G
+#SBATCH --partition=short
+#SBATCH --exclusive
+#SBATCH --begin=now+60
+module load anaconda3/3.7
+conda create -n Line_YouTube python=3.7 anaconda
+source activate Line_YouTube
+conda install -n Line_YouTube scikit-learn
+conda install -n Line_YouTube tensorflow
+conda install -n Line_YouTube networkx
+conda install -n Line_YouTube scipy
+conda install -n Line_YouTube matplotlib
+conda install -n Line_YouTube numpy
+conda install -n Line_YouTube gensim
+python3 main.py -m line -d youtube -r 5
+conda deactivate
+conda remove -n Line_YouTube --all

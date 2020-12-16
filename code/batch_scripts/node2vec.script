@@ -1,0 +1,27 @@
+#!/bin/bash
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=28
+#SBATCH --time=23:00:00
+#SBATCH --job-name=Node2Vec_Flickr
+#SBATCH --mem=256G
+#SBATCH --partition=short
+#SBATCH --exclusive
+#SBATCH --begin=now+60
+module load anaconda3/3.7
+conda create -n Node2Vec_Flickr python=3.7 anaconda
+source activate Node2Vec_Flickr
+conda install -n Node2Vec_Flickr scikit-learn
+conda install -n Node2Vec_Flickr tensorflow
+conda install -n Node2Vec_Flickr networkx
+conda install -n Node2Vec_Flickr scipy
+conda install -n Node2Vec_Flickr matplotlib
+conda install -n Node2Vec_Flickr numpy
+conda install -n Node2Vec_Flickr gensim
+python3 main.py -m Node2Vec -d wiki -r 5
+python3 main.py -m Node2Vec -d homosapiens -r 5
+python3 main.py -m Node2Vec -d blogcatalog -r 5
+python3 main.py -m Node2Vec -d flickr -r 5
+
+conda deactivate
+conda remove -n Node2Vec_Flickr --all
